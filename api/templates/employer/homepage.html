@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Posting Website</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+        }
+        #header {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        #overflow-menu {
+            position: relative;
+            padding: 10px;
+            width: 10%;
+            
+        }
+        .overflow-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 5px;
+            right: 0;
+        }
+        
+        .overflow-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            
+            display: block;
+        }
+        .overflow-content a:hover {
+            background-color: #f1f1f1;
+        }
+        .overflow-content.show {
+            display:block;
+        }
+        #main-content {
+            padding: 20px;
+            margin-left: 20%;
+            margin-right: 30%;
+        }
+        .job-post {
+            background-color: white;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .job-post img {
+            max-width: 100%;
+            height: auto;
+        }
+        .posted-jobs {
+            margin-top: 40px;
+        }
+        input[type="text"],textarea{
+            font-size: 16px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        input[type="file"] {
+            font-size: 16px;
+            padding: 10px;
+            margin-bottom: 10px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4CAF50;
+            padding: 10px;
+            width: 100%;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+        .select-large {
+            width: 200px; /* Adjust the width as needed */
+            height: 40px; /* Adjust the height as needed */
+            font-size: 16px; /* Adjust the font size as needed */
+        }
+        
+    </style>
+</head>
+<body>
+    <div id="header">
+        <h1>Job Posting Website</h1>
+        <div id="overflow-menu">
+            <button onclick="toggleMenu()">Menu</button>
+            <div class="overflow-content" id="overflow-content">
+                <a href="#">View Profile</a>
+                <a href="#">Logout</a>
+            </div>
+        </div>
+    </div>
+    <div id="main-content">
+        <h2>Post a Job</h2>
+        <form method = "POST">{% csrf_token %}
+            <label for="job-title">Job Title:</label><br>
+            <input type="text" id="job-title" name="title"><br>
+
+            <label for="job-description">Job Description:</label><br>
+            <textarea id="job-description" name="description"></textarea><br>
+
+            <label for="job-location">Job Location:</label><br>
+            <input type="text" id="job-location" name="location"><br>
+
+            <label for="experience">Experience:</label><br>
+            <select id="experience" name="experience" class="select-large">
+                <option value=0>Any</option>
+                <option value=1>0-1 year</option>
+                <option value=2>1-2 years</option>
+                <option value=3>2-3 years</option>
+                <option value=4>3-4 years</option>
+                <option value=5>4-5 years</option>
+            </select><br><br>
+
+            <label for="contact_us">Contact Us:</label><br>
+            <input type="text" id="contact_us" name="contact_us"><br><br>
+
+            <button type="submit">Post Job</button>
+        </form>
+        <div class="posted-jobs">
+            <h2>Posted Jobs</h2>
+            <!-- Display posted jobs here -->
+            {% for job in jobs_listing %}
+                <div class="job" style="border:solid blue">
+                    <img src="job_picture_1.png" alt="Job Picture">
+                    <h2>{{ job.title }}</h2>
+                    <p>{{ job.description }}</p>
+                    <p>{{ job.location }}</p>
+                    <strong>Applicants:- </strong>{{ job.applicants }}
+                    <a href="{% url 'view_applications' job.id %}">View Applicants</a>
+                </div><br><br>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script>
+        function toggleMenu() {
+            var menu = document.getElementById("overflow-content");
+            menu.classList.toggle("show");
+        }
+    </script>
+</body>
+</html>

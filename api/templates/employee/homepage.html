@@ -1,0 +1,128 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RevHire - Job Applications</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        .container {
+            width: 80%;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .filter-form {
+            margin-bottom: 20px;
+        }
+
+        .filter-form select {
+            padding: 10px;
+            margin-right: 10px;
+        }
+
+        .job-application {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background-color: #fff;
+        }
+
+        .job-application h2 {
+            margin-top: 0;
+        }
+
+        .job-application p {
+            margin: 0;
+        }
+        .job-link {
+            text-decoration: none; /* Remove underline */
+            color: #333; /* Set color to black */
+            display: block; /* Ensure each job listing takes full width */
+            margin-bottom: 10px; /* Add some space between job listings */
+        }
+        
+        .job-link:hover {
+            background-color: #e0e0e0; /* Add background color on hover */
+        }
+        
+        .notification {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            display: none; /* Initially hide the notification */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Job Applications</h1>
+
+        <!-- Filtering Options -->
+        <form class="filter-form" method="POST">{% csrf_token %}
+            <div>
+                <label for="job_role">Job Role: </label>
+                <input type="text" id="job_role" name="title">
+            </div><br>
+            <div>   
+                <label for="job_location">Location: </label>
+                <input type="text" id="job_location" name="location">
+            </div><br>
+            <div>
+                <label for="company-name">Company: </label>
+                <input type="text" id="company_name" name="company_name">
+            </div><br>
+            <div>
+                <label for="experience">Experience (Years):</label>
+                <select id="experience" name="experience">
+                    <option value=0>Any</option>
+                    <option value=1>0-1 year</option>
+                    <option value=2>1-2 years</option>
+                    <option value=3>2-3 years</option>
+                    <option value=4>3-4 years</option>
+                    <option value=5>4-5 years</option>
+                </select>
+            </div><br>
+            <input type="submit" value="Filter">
+        </form>
+
+        <div class="job-listing">
+            {% if filter_jobs %}
+                <h3>Job Results</h3>
+                {% for job in filter_jobs %}
+                    <a href="{% url 'job_details' job.id %}" class="job-link">
+                        <div class="job-application">
+                            <h2>{{ job.title }}</h2>
+                            <p><strong>Location:</strong>{{ job.location }}</p>
+                            <p><strong>Description:</strong>{{ job.description }}</p>
+                        </div>
+                    </a>
+                {% endfor %}    
+            {% endif %}    
+        </div>
+    </div>
+
+</body>
+</html>

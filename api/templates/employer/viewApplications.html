@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Applicant Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .applicant-details {
+            margin-bottom: 20px;
+        }
+
+        .applicant-details h2 {
+            margin-top: 0;
+        }
+
+        .applicant-info {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 3px;
+        }
+
+        .applicant-info label {
+            font-weight: bold;
+        }
+
+        .applicant-info p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="applicant-details">
+            <h2>Applicant Details</h2>
+            {% for applicant in applicants %}
+                <div class="applicant-info">
+                    {% comment %} <label>Applicant email:</label>
+                    <p>{{ applicant.email }}</p> {% endcomment %}
+                    <label>Phone Number:</label>
+                    <p>{{ applicant.phone_no }}</p>
+                    <label>Email:</label>
+                    <p>{{ applicant.email }}</p>
+                    <label>Resume:</label>
+                    <p><a href="{{ applicant.resume.url }}">Download Resume</a></p><br>
+
+                    {% if applicant.status == 1 %}
+                        <a href="{% url 'accept_application' applicant.id %}"><button style="color:white; background:green">accept</button></a>
+                        <a href="{% url 'reject_application' applicant.id %}"><button style="color:white; background:red">reject</button></a>
+                        
+                    {% elif applicant.status == 2 %}    
+                        status:- <strong>ACCEPTED</strong>
+                    {% elif applicant.status == 3 %}    
+                        status:- <strong>REJECTED</strong>
+                    {% endif %}    
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

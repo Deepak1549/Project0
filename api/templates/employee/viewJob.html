@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Description</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .filter-form {
+            margin-bottom: 20px;
+        }
+
+        .filter-form label {
+            font-weight: bold;
+        }
+
+        .filter-form select, .filter-form input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        .job-listing {
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+
+        .job-listing h3 {
+            margin-top: 0;
+        }
+
+        .job {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 3px;
+        }
+        .apply-button {
+            background-color: blue;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer; /* Change cursor to pointer */
+        }
+        
+        .apply-button:hover {
+            background-color: darkblue;
+        }
+        
+        .apply-button-link {
+            text-decoration: none;
+        }
+        
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="job-listing">
+            {% if job %}
+            <h3>{{ job.title }}</h3>
+                    <div class="job">
+                        <strong>Description:- </strong>{{ job.description }}<br><br>
+                        <strong>Experience:- </strong>{{ job.get_experience_display }}<br><br>
+                        <strong>Location:- </strong>{{ job.location }}<br><br>
+                        <strong>Contact Us:- </strong>{{ job.contact_us }}<br><br>
+                    </div>
+                </a>
+                <a href="{% url 'apply_job' job.id %}" class="apply-button-link">
+                    <button class="apply-button">Apply</button>
+                </a>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
